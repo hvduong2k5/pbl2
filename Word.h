@@ -13,6 +13,7 @@ private:
     string ipa;
 public:
     Word();
+    Word(const std::string& line);
     ~Word();
 };
 
