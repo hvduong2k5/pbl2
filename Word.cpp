@@ -18,20 +18,22 @@ Word::Word(const std::string& line) : left(NULL), right(NULL) {
         buffer.clear();
     }
 
-    // Phiên âm IPA: nằm giữa dấu '/'
-    if (line[i] == ' ') i++; // Bỏ qua khoảng trắng sau từ tiếng Anh
-    if (line[i] == '/') {
+    // Bỏ qua khoảng trắng sau từ tiếng Anh, nếu có
+    if (i < line.size() && line[i] == ' ') i++;
+
+    // Phiên âm IPA: nằm giữa dấu '/', kiểm tra xem có không
+    if (i < line.size() && line[i] == '/') {
         i++;
         while (i < line.size() && line[i] != '/') {
             buffer += line[i++];
         }
         phienAmIPA = buffer;
         buffer.clear();
-        i++; // Bỏ qua dấu '/'
+        if (i < line.size()) i++; // Bỏ qua dấu '/' kết thúc
     }
 
-    // Loại từ: bắt đầu bằng '*'
-    if (line[i] == '*') {
+    // Loại từ: bắt đầu bằng '*', kiểm tra xem có không
+    if (i < line.size() && line[i] == '*') {
         i++;
         while (i < line.size() && line[i] != '-') {
             buffer += line[i++];
@@ -40,12 +42,12 @@ Word::Word(const std::string& line) : left(NULL), right(NULL) {
         buffer.clear();
     }
 
-    // Nghĩa tiếng Việt: bắt đầu bằng dấu '-'
+    // Nghĩa tiếng Việt: bắt đầu bằng dấu '-', kiểm tra và thêm tối đa 3 nghĩa
     int nghiaIndex = 0;
     while (i < line.size() && nghiaIndex < 3) {
         if (line[i] == '-') {
             i++;
-            while (i < line.size() && line[i] != '=') {
+            while (i < line.size() && line[i] != '=' && line[i] != '-') {
                 buffer += line[i++];
             }
             nghia[nghiaIndex++] = buffer;
@@ -55,7 +57,7 @@ Word::Word(const std::string& line) : left(NULL), right(NULL) {
         }
     }
 
-    // Đồng nghĩa: bắt đầu bằng dấu '='
+    // Đồng nghĩa: bắt đầu bằng dấu '=', kiểm tra và thêm tối đa 3 ví dụ đồng nghĩa
     int viduIndex = 0;
     while (i < line.size() && viduIndex < 3) {
         if (line[i] == '=') {
