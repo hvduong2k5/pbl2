@@ -1,43 +1,49 @@
+#ifndef DICTIONARY_H
+#define DICTIONARY_H
+
 #include <iostream>
-#include <string>
 #include <fstream>
-// ... các thư viện khác
+#include <string>
 
 class Word {
 public:
-    std::string tu, nghia[3], loai, dongnghia, vidu[3];
-    // ... các phương thức getter và setter
-};
+    std::string tu, loai, dongnghia;
+    std::string nghia[3], vidu[3];
+    Word* left;
+    Word* right;
 
-class Node {
-public:
-    Word word;
-    Node* next;
-    Node* prev;
-    // ... các phương thức
-};
-
-class LinkedList {
-public:
-    Node* head;
-    Node* tail;
-    // ... các phương thức add, delete, search
-};
-
-class HashTable {
-public:
-    LinkedList* table;
-    // ... các phương thức insert, search
+    Word(const std::string& line);
 };
 
 class Dictionary {
+private:
+    struct HashTable {
+        Word* head;
+        Word* tail;
+    } *bang;
+
+    bool capnhat;
+    Word* currentWord;
+
+    int taptudien(const std::string& tu);
+    void tachchuoi(const std::string& line, Word*& tu);
+    void addlast(Word*& head, Word*& tail, Word*& tu);
+
 public:
-    HashTable hashTable;
-    // ... các phương thức addWord, searchWord, deleteWord, ...
+    Dictionary();
+    ~Dictionary();
+    void readf(const std::string& filename);
+    void writef(const std::string& filename);
+    Word* findfirstword();
+    Word* leftword(Word* current);
+    Word* rightword(Word* current);
+    void importword(const std::string& line);
+    void deletewordcurrent();
+    void searchbox();
+    void printscreen(Word* tu);
+
+    bool search(const std::string& searchword);
+    std::string fixtext(const std::string& text);
 };
 
-int main() {
-    Dictionary dictionary;
-    // ... code sử dụng các đối tượng và phương thức của lớp Dictionary
-    return 0;
-}
+#endif // DICTIONARY_H
