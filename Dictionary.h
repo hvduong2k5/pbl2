@@ -5,16 +5,6 @@
 #include <fstream>
 #include <string>
 
-class Word {
-public:
-    std::string tu, loai, dongnghia;
-    std::string nghia[3], vidu[3];
-    Word* left;
-    Word* right;
-
-    Word(const std::string& line);
-};
-
 class Dictionary {
 private:
     struct HashTable {
