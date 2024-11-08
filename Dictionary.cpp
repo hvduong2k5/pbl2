@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <conio.h>
 
+
 Word::Word(const std::string& line) : left(NULL), right(NULL) {
     int i = 0;
     std::string buffer;
@@ -166,7 +167,6 @@ void Dictionary::deletewordcurrent() {
 }
 
 void Dictionary::searchbox() {
-    // Ch?c năng t?m ki?m (placeholder).
 }
 
 void Dictionary::printscreen(Word* word) {
